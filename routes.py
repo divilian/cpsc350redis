@@ -51,9 +51,10 @@ def add_or_remove():
         decode_responses=True)
     hobby = request.args['hobby']
     username = session['user']
-    if r.exists("hobbies:"+username) and type("hobbies:"+username) == set:
-        r.srem("hobbies:"+username)
+    if (r.exists("hobbies:"+username) and
+        r.sismember("hobbies:"+username,hobby)):
+        r.srem("hobbies:"+username, hobby)
     else:
-        r.sadd("hobbies:"+username)
+        r.sadd("hobbies:"+username, hobby)
     return redirect(url_for('show_hobby_list'))
     
