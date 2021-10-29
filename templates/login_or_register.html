@@ -1,0 +1,29 @@
+<html>
+<head>
+    <title>Welcome to Hobby Manager!</title>
+</head>
+<body>
+<p>New to Hobby Manager? Create a new account!</p>
+<form action="{{url_for('register')}}" method="post" >
+<label for="username">Choose a username:</label>
+<input type=text id="username", name="username" />
+<label for="password">Choose a password:</label>
+<input type=password id="password", name="password" />
+<label for="password2">Retype your password:</label>
+<input type=password id="password2", name="password2" />
+<input type=submit value="Create account!" />
+</form>
+
+<p>Already have a Hobby Manager account? Log in!</p>
+<form action="{{url_for('login')}}" method="post" >
+<label for="username">Choose a username:</label>
+<input type=text id="username", name="username" />
+<label for="password">Choose a password:</label>
+<input type=password id="password", name="password" />
+<input type=submit value="Login!" />
+</form>
+
+<p style="color:red;">{{msg}}</p>
+
+</body>
+</html>
