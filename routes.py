@@ -1,6 +1,6 @@
 
 from flask import request, url_for, session, render_template, redirect
-from hobbies import hobby_mgr
+from cpsc350redis import hobby_mgr
 import redis
 
 @hobby_mgr.route("/")
@@ -41,9 +41,23 @@ def register():
     session["password"] = password1
     return redirect(url_for("show_hobby_list"))
 
-@hobby_mgr.route("/login")
+@hobby_mgr.route("/login", methods=['POST'])
 def login():
-    return "TODO!"
+    r = redis.StrictRedis(password="davies4ever", charset='utf-8',
+        decode_responses=True)
+    username = request.form['username']
+    entered_password = request.form['password']
+    if not r.exists("user:"+username):
+        return render_template("login_or_register.html",
+            msg=f"No such user {username}!")
+    else:
+        real_password = r.get("user:"+username)
+        if entered_password != real_password:
+            return render_template("login_or_register.html",
+                msg=f"Incorrect password!")
+    session['user'] = username
+    session['password'] = entered_password
+    return redirect(url_for("show_hobby_list"))
 
 @hobby_mgr.route("/add_or_remove")
 def add_or_remove():

@@ -1,2 +1,2 @@
 
-from hobbies import hobby_mgr
+from cpsc350redis import hobby_mgr
